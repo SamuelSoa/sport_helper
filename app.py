@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 from function_for_app import plot_team_basket
 from layout_page import *
+
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 df_joueurs = {
     'Pseudo': ["Player1", "Player2", "Player3", "Player4", "Player5"]
