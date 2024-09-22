@@ -1,8 +1,10 @@
 import pymongo
 from pymongo import MongoClient
 import random
-import string
+import certifi
+ca = certifi.where()
 
+cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players', tlsCAFile=ca)
 def generate_random_string(length):
     characters = string.ascii_uppercase + string.digits +'_-=+'
     random_string = '#'+''.join(random.sample(characters, length))
@@ -12,12 +14,11 @@ def generate_random_string(length):
 # print(random_string)
 
 def get_collection(database,collection_db):
-    client=MongoClient()
-    db=client.test_database
-    collection=db.test_collection
-
+    # client=MongoClient()
+    # db=client.test_database
+    # collection=db.test_collection
     # connexion to the cluster
-    cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players')
+    cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players', tlsCAFile=ca)
     
     #database
     db=cluster[database]
@@ -80,7 +81,6 @@ def create_joueur(email,pseudo,password):
 
 
 # connexion to the cluster
-cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players')
 # db=cluster['Players']
 # collection=db['joueurs']
 # # insert multiple post
@@ -90,7 +90,7 @@ cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/
 
 
 def get_all_data_joueurs(nom_db,nom_collection):
-    cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players')
+    cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players', tlsCAFile=ca)
     db=cluster[nom_db]
     collection=db[nom_collection]
     liste=collection.find()
@@ -100,3 +100,23 @@ def get_all_data_joueurs(nom_db,nom_collection):
     return dicto
 
 
+def get_all_ligues():
+    cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players', tlsCAFile=ca)
+    db=cluster['Ligues']
+    collection=db['ligues_info']
+    liste_all=collection.find()
+    liste_ligue_joueur=[[elem['ligue_name'],elem['liste_player']] for elem in liste_all]
+    liste_to_fill=[]
+    print(liste_ligue_joueur)
+    for elem in liste_ligue_joueur:
+        joueurs=elem[1]
+        print(joueurs)
+        if current_user.id in joueurs:
+            liste_to_fill.append(elem[0])
+    result=dcc.Dropdown(
+            id="ligues_rejointes",
+            options=[{"label": x, "value": x} for x in liste_to_fill],
+            clearable=False,
+            className="dropdown"
+        )
+    return result
