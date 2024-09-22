@@ -4,7 +4,7 @@ import random
 import certifi
 import string
 from flask_login import current_user
-
+from dash import dcc
 ca = certifi.where()
 
 cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players', tlsCAFile=ca)
