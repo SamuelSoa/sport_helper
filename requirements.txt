@@ -20,7 +20,7 @@ ipywidgets==8.1.5
 keyring==25.4.1
 matplotlib==3.5.1
 mod==0.3.0
-numpy==2.1.1
+numpy==1.26.4
 pandas==1.4.2
 path.py==12.5.0
 Pillow==10.4.0
