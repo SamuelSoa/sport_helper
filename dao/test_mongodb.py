@@ -11,8 +11,9 @@ collection=db.test_collection
 cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players')
 
 #database
-db=cluster['Players']
-collection=db['General_info']
+db=cluster['Ligues']
+collection=db['ligues_info']
+# results=collection.delete_many({})
 
 
 # add something in the collection
