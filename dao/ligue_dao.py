@@ -5,6 +5,7 @@ import certifi
 ca = certifi.where()
 
 cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players', tlsCAFile=ca)
+
 def generate_random_string(length):
     characters = string.ascii_uppercase + string.digits +'_-=+'
     random_string = '#'+''.join(random.sample(characters, length))
@@ -19,7 +20,6 @@ def get_collection(database,collection_db):
     # collection=db.test_collection
     # connexion to the cluster
     cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players', tlsCAFile=ca)
-    
     #database
     db=cluster[database]
     collection=db[collection_db]
@@ -90,6 +90,16 @@ def create_joueur(email,pseudo,password):
 
 
 def get_all_data_joueurs(nom_db,nom_collection):
+    """Renvoie la paire username:password pour les personnes inscrites sur l'application
+    
+    Arguments
+    ----------
+    db:str
+        Nom de la base de données 
+    nom_collection:str
+        Nom de la collection avec les données utilisateurs
+    
+    """
     cluster=MongoClient('mongodb+srv://mrsamu35:Samuel35-@players.lahd6.mongodb.net/?retryWrites=true&w=majority&appName=Players', tlsCAFile=ca)
     db=cluster[nom_db]
     collection=db[nom_collection]
