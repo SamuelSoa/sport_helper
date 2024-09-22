@@ -2,7 +2,7 @@ import dash
 from dash import dcc, html, Input, Output,dash_table,State,ALL
 import dash_bootstrap_components as dbc
 from function_for_app import plot_team_basket
-from dao.ligue_dao import *
+from dao.ligue_dao import get_all_data_joueurs
 import pandas as pd
 
 #authentif
