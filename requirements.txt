@@ -39,3 +39,6 @@ trove_classifiers==2024.9.12
 xx==3.3.2
 Werkzeug==2.2.2
 gunicorn
+utils
+string
+random
