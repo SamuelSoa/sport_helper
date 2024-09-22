@@ -49,7 +49,8 @@ layout_vosligues=html.Div([
             # dcc.Location(id='url', refresh=False),  # Add this component
             html.Div([html.Div(id='name_ligue_dropdown'),html.Div(id='code_ligue')]),
             dbc.Nav(
-            [ dbc.NavLink("Ajouter un resultat", href=f"/ligues/{html.div(id='code_ligue')}/add_result", active="exact"),
+            [
+                #  dbc.NavLink("Ajouter un resultat", href=f"/ligues/{html.div(id='code_ligue')}/add_result", active="exact"),
             dbc.NavLink("Rencontres à venir", href="/ligues/vos_ligues/rencontres_a_venir", active="exact"),
             dbc.NavLink("Statistiques", href="/ligues/vos_ligues/statistiques", active="exact")
 
