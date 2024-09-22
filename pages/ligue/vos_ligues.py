@@ -16,7 +16,6 @@ require_login(__name__)
 def layout():
     if not current_user.is_authenticated:
         return html.Div(["Please ", dcc.Link("login", href="/login"), " to continue"])
-
     return html.Div(
         [html.Div(children="Vos ligues", className="menu-title"),
        get_all_ligues()
@@ -34,7 +33,6 @@ layout_vosligues=html.Div([
                 #  dbc.NavLink("Ajouter un resultat", href=f"/ligues/{html.div(id='code_ligue')}/add_result", active="exact"),
             dbc.NavLink("Rencontres à venir", href="/ligues/vos_ligues/rencontres_a_venir", active="exact"),
             dbc.NavLink("Statistiques", href="/ligues/vos_ligues/statistiques", active="exact")
-
             ],
             vertical="md",
             pills=True
