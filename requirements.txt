@@ -3,9 +3,7 @@ colorama==0.4.4
 ConfigParser==7.1.0
 cryptography==38.0.3
 Cython==3.0.11
-dash==2.12.1
 dash==2.18.1
-dash_bootstrap_components==1.4.2
 dash_bootstrap_components==1.6.0
 dash_html_components==2.0.0
 dash_table==5.0.0
@@ -17,7 +15,6 @@ Flask==2.1.1
 Flask_Login==0.6.3
 HTMLParser==0.0.2
 ini2toml==0.15
-ipython==8.4.0
 ipython==8.12.3
 ipywidgets==8.1.5
 jnius==1.1.0
@@ -27,10 +24,8 @@ mod==0.3.0
 numpy==1.22.3
 pandas==1.4.2
 path.py==12.5.0
-Pillow==9.1.0
 Pillow==10.4.0
 pkg1==0.0.3
-plotly==5.8.2
 plotly==5.24.1
 protobuf==5.28.2
 pymongo==4.3.3
