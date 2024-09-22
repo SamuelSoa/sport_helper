@@ -2,7 +2,6 @@ attrs==22.1.0
 colorama==0.4.4
 ConfigParser==7.1.0
 cryptography==38.0.3
-Cython==3.0.11
 dash==2.18.1
 dash_bootstrap_components==1.6.0
 dash_html_components==2.0.0
@@ -17,6 +16,7 @@ HTMLParser==0.0.2
 ini2toml==0.15
 ipython==8.12.3
 ipywidgets==8.1.5
+Cython
 jnius==1.1.0
 keyring==25.4.1
 matplotlib==3.5.1
