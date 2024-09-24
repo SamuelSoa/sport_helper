@@ -3,6 +3,7 @@ import dash
 import dash_bootstrap_components as dbc
 import numpy as np
 from dash import dcc, html, Input, Output,dash_table,State, callback
+from dao.ligue_dao import get_collection,create_joueur
 dash.register_page(__name__, path="/creer_compte")
 
 

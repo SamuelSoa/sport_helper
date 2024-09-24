@@ -13,7 +13,6 @@ require_login(__name__)
 
 
 
-
 layout= html.Div(
     # style={'backgroundColor': '#0D1117', 'color': '#C9D1D9', 'padding': '50px'},
     children=[
@@ -62,6 +61,14 @@ layout= html.Div(
                         'cursor': 'pointer'
                     }
                 ),
+                 html.Div(children="Discipline", className="menu-title"),
+        dcc.Dropdown(
+            id="discipline_ligue",
+            options=[{"label": x, "value": y} for x, y in [['Basket', 'basket'], ['Tennis', 'tennis'], ['Football', 'football'], ['Volley', 'volley']]],
+            value='basket',
+            clearable=False,
+            className="dropdown"
+        ),
         html.Div(id='text_ligue_cree', style={'margin': '20px', 'fontSize': 20}),
             ]
         )
@@ -76,14 +83,16 @@ layout= html.Div(
     Input('validate_creation_ligue', 'n_clicks'),
     Input('ligue_name', 'value'),
     State('sys_ligue', 'value'),
+    State('discipline_ligue', 'value'),
+
     prevent_initial_call=True
 )
-def send_ligue_to_db(n_clicks,nom_ligue,sys_ligue):
+def send_ligue_to_db(n_clicks,nom_ligue,sys_ligue,discipline):
     if not current_user.is_authenticated:
         return html.Div(["Please ", dcc.Link("login", href="/login"), " to continue"])
     if n_clicks==1:
         print(current_user)
-        create_ligue(nom_ligue,sys_ligue,current_user.id)
-        return 'ligue crée avec succès'
+        expression=create_ligue(nom_ligue,sys_ligue,current_user.id,discipline)
+        return expression
     else:
         return dash.no_update

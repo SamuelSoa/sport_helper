@@ -2,7 +2,7 @@ import dash
 from dash import dcc, html, Input, Output,dash_table,State,ALL
 import dash_bootstrap_components as dbc
 from function_for_app import plot_team_basket
-from dao.ligue_dao import get_all_data_joueurs
+from dao.ligue_dao import get_all_data_joueurs,get_ligue_alldata
 import pandas as pd
 
 #authentif
@@ -79,7 +79,8 @@ app = dash.Dash(__name__,server=server, use_pages=True,external_stylesheets=[dbc
 app.layout = html.Div([
     dcc.Location(id="url"),
     dcc.Store(id='shared-data-store', storage_type='session'),
-
+    dcc.Store(id='shared-data-ligue', storage_type='session'),
+    dcc.Store(id='shared-data-store-footbasket', storage_type='session'),
     sidebar, content])
 
 # Login manager object will be used to login / logout users
@@ -137,14 +138,14 @@ def update_authentication_status(path, n):
     if current_user.is_authenticated:
         if path == '/login':
             return dcc.Link("logout", href="/logout"), '/'
-        return dcc.Link("logout", href="/logout"), dash.no_update
+        return dcc.Link("Se deconnecter", href="/logout"), dash.no_update
     else:
         if path in restricted_page:
             session['url'] = path  # Save URL to redirect after login
-            return dcc.Link("login", href="/login"), '/login'
+            return dcc.Link("Se connecter", href="/login"), '/login'
 
     if current_user and path not in ['/login', '/logout']:
-        return dcc.Link("login", href="/login"), dash.no_update
+        return dcc.Link("Se connecter", href="/login"), dash.no_update
 
     if path in ['/login', '/logout']:
         return '', dash.no_update
@@ -204,19 +205,8 @@ def store_data(n_clicks, input_value1,input_value2,input_value3,input_value4,inp
     print(f"Storing data: {dicto}")  # Debugging statement
     return dicto
 
-@app.callback(
-    Output('shared-data-store', 'data',allow_duplicate=True),
-    Input('validate-overtime-button', 'n_clicks'),
-    Input('duree-overtime', 'value'),
-    State('shared-data-store', 'data'),
-    prevent_initial_call=True
-)
-def add_overtime(n_clicks,duree,shared_data):
-    # premier click va permettre d'avoir la valeur de shared_data, deuxième permet d'obtenir discipline
-    if n_clicks>=1: 
-        shared_data['periode-input']+=1
-        shared_data['start-time-input']=duree
-    return shared_data
+
+
 
 
 # Useful for layout

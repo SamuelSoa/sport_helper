@@ -6,7 +6,7 @@ import numpy as np
 from dash import dcc, html, Input, Output,dash_table,State, callback
 
 
-dash.register_page(__name__, path="/exhibition",name='Exhibition')
+dash.register_page(__name__, path="/exhibition",name="Definition de la partie d'exhibition")
 
 layout = html.Div(
     children=[

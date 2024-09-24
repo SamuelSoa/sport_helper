@@ -3,9 +3,11 @@ import dash
 import dash_bootstrap_components as dbc
 import numpy as np
 from dash import dcc, html, Input, Output,dash_table,State, callback
+import datetime
 
+from pages.ligue.annotator_ligue.basket_ligue import display_stat_by_id,get_nom_equipe_ligue
 
-dash.register_page(__name__, path="/exhibition/party_tennis")
+dash.register_page(__name__, path="/party_tennis_ligue")
 
 df_event_tennis=pd.DataFrame(columns=['player','team','set_actuel','event','score1','score2'])
 
@@ -59,23 +61,23 @@ layout= html.Div([
     html.H1('Statistiques du match'),
     
     html.Div(children="Nombre de set gagnant", className="menu-title"),
-        dcc.Input(id="nb_set_gagnant", type="number", value=4),
+        dcc.Input(id="nb_set_gagnant-ligue", type="number", value=4),
     
      html.Div([
        html.Div('Set actuel', style={'fontSize': 20, 'marginRight': '10px', 'marginLeft': '10px'}),
-        html.Div(id='set_actuel', style={'fontSize': 20,'padding': '20px'})
+        html.Div(id='set_actuel-ligue', style={'fontSize': 20,'padding': '20px'})
        
        ], style={'display': 'flex', 'alignItems': 'center', 'justifyContent': 'center'}),
     # Create a table-like structure with rows of buttons per person
-    html.Div(id='buttons-container-tennis', style={'padding': '20px'}),
+    html.Div(id='buttons-container-tennis-ligue', style={'padding': '20px'}),
     html.Br(),
     html.H1("Données de match"),
-    html.Div(id='stat-container-tennis', style={'padding': '20px'}),
+    html.Div(id='stat-container-tennis-ligue', style={'padding': '20px'}),
 
     html.H1("Données d'évènements"),
     # Dash DataTable to display the updated dataframe
     dash_table.DataTable(
-        id="output_table2_tennis",
+        id="output_table2_tennis-ligue",
             export_format="csv",
         columns=[{"name": i, "id": i} for i in df_event_tennis.columns],  # Display dataframe columns
         data=df_event_tennis.to_dict('records'),  # Initialize the table with dataframe data
@@ -88,12 +90,14 @@ layout= html.Div([
             'backgroundColor': 'rgb(50, 50, 50)',
             'color': 'white'
         }
-    )
+    ),
+    html.Button('Cliquez 1 fois pour sauvegarder', id='validate-button-exportperf-tennis', n_clicks=0) ,
+    html.Div(id='text-exportperf-tenis',style={'fontSize': 40, 'textAlign': 'center', 'marginTop': '20px'})
 ])
 
-def display_stat_tennis(df):
+def display_stat_tennis_ligue(df):
     layout_stat=dash_table.DataTable(
-            id="output_table_team_render_tennis",
+            id="output_table_team_render_tennis-ligue",
                 export_format="csv",
             columns=[{"name": i, "id": i} for i in df.columns],  # Display dataframe columns
             data=df.to_dict('records'),  # Initialize the table with dataframe data
@@ -121,15 +125,14 @@ def display_buttons_tennis(df):
 
 
 
-def get_nom_exhibition_tennis(shared_data,nombre_set_gagnant):
+def get_nom_exhibition_tennis_ligue(shared_data,nombre_set_gagnant):
     """ Retourne les données des équipes (initialisation du df) 
     df_result à utiliser pour le layout des boutons et des stats"""
-    donnees_equipes1=shared_data['donnees_team1'].split(',')
-    donnees_equipes2=shared_data['donnees_team2'].split(',')
-    nom_equipe1=shared_data['nomequipe1']
+    joueurs1=shared_data['donnees_team1-ligue']
+    joueurs2=shared_data['donnees_team2-ligue']
+    nom_equipe1=shared_data['nomequipe1-ligue']
     nom_equipe2=shared_data['nomequipe2']
-    joueurs1=donnees_equipes1
-    joueurs2=donnees_equipes2
+   
     data = {
     'player':joueurs1+joueurs2 ,
     'team':[nom_equipe1]*len(joueurs1)+ [nom_equipe2]*len(joueurs2),
@@ -149,11 +152,11 @@ def get_nom_exhibition_tennis(shared_data,nombre_set_gagnant):
 
 
 @callback(
-    Output('buttons-container-tennis', 'children'),Output('stat-container-tennis', 'children'),  # To dynamically update the buttons
+    Output('buttons-container-tennis-ligue', 'children'),Output('stat-container-tennis-ligue', 'children'),  # To dynamically update the buttons
     [
     # State({'type': 'output_table_team', 'index': dash.dependencies.ALL}, 'data'),
-    State('shared-data-store', 'data'),
-    Input('nb_set_gagnant', 'value')
+    State('shared-data-store-footbasket', 'data'),
+    Input('nb_set_gagnant-ligue', 'value')
     ]
     )
 def update_display_tennis(shared_data,nb_set_gagnant):
@@ -162,32 +165,32 @@ def update_display_tennis(shared_data,nb_set_gagnant):
     # Call the display_annot_buttons function with the current DataFrame and annotation system
     # print('on est a update_buttons_display')
     print('not yet, transforation des données partagés pour display boutons et stat')
-    df=get_nom_exhibition_tennis(shared_data,nb_set_gagnant)
+    df=get_nom_exhibition_tennis_ligue(shared_data,nb_set_gagnant)
     print('yes')
     donnees_button=display_buttons_tennis(df)
-    donnees_stat=display_stat_tennis(df)
+    donnees_stat=display_stat_tennis_ligue(df)
     return donnees_button,donnees_stat
 
 
 # Callback to update each team information and update the table
 @callback(
-    [Output("output_table_team_render_tennis", "data"),
-    Output("output_table2_tennis", "data"),
-    Output('set_actuel','children')],
+    [Output("output_table_team_render_tennis-ligue", "data"),
+    Output("output_table2_tennis-ligue", "data"),
+    Output('set_actuel-ligue','children')],
     # Output("periode-output", "children")],
     [Input({'type': 'point-button', 'index': dash.dependencies.ALL}, 'n_clicks'),
-    State('output_table_team_render_tennis', 'data'),
-    State('output_table2_tennis', 'data'),
-    Input('nb_set_gagnant','value'),
-    State('set_actuel','value'),
-    State('shared-data-store', 'data')
+    State('output_table_team_render_tennis-ligue', 'data'),
+    State('output_table2_tennis-ligue', 'data'),
+    Input('nb_set_gagnant-ligue','value'),
+    State('set_actuel-ligue','value'),
+    State('shared-data-store-footbasket', 'data')
     ]
 )
 def update_person_info_team_tennis(pt_click,table_data,event_data,nb_set_gagnant,set_actuel,shared_data):
     
     # print(f"input update_person_info_team: {table_data}")
     df_event = pd.DataFrame(event_data)
-    df = pd.DataFrame(table_data) if table_data else get_nom_exhibition_tennis(shared_data,nb_set_gagnant)
+    df = pd.DataFrame(table_data) if table_data else get_nom_exhibition_tennis_ligue(shared_data,nb_set_gagnant)
     print(df)
     if not set_actuel:
         set_actuel='set1'
@@ -253,6 +256,48 @@ def update_person_info_team_tennis(pt_click,table_data,event_data,nb_set_gagnant
 
 
 
+@callback(
+    Output('text-exportperf-tennis', 'children',allow_duplicate=True),
+    Input('shared-data-ligue','data'),
+    Input('shared-data-store-footbasket','data'),
+    Input('validate-button-exportperf-tennis', 'n_clicks'),
+    Input('output_table_team_render_tennis-ligue', 'data'),
+    Input('output_table2_tennis-ligue', 'data'),
+    prevent_initial_call=True
+)
+def export_perf(shared_data_ligue,share_data_match,n_clicks,df_stat,df_event):
+    if n_clicks>=1:
+        dff_event=pd.DataFrame(df_event)
+        print('dff_event')
+        print(dff_event)
+        print(dff_event.columns)
+        print(dff_event.tail(1))
+        donnees_finale=dff_event.tail(1).loc[:,['score1','score2']]
+        donnees_finale['equipe1']=share_data_match['nomequipe1-ligue']
+        donnees_finale['equipe2']=share_data_match['nomequipe2-ligue']
+        joueurs1=share_data_match['donnees_team1-ligue']
+        joueurs2=share_data_match['donnees_team2-ligue']
+        ligue= shared_data_ligue['ligue_name']
+        date=datetime.date.today().strftime('%d/%m/%Y')
+        heure=datetime.datetime.now().strftime('%H:%M:%S')
+        post={'discipline':share_data_match['discipline_to_choose'],'date_enregistrement':date,'heure_enregistrement':heure,'saison':shared_data_ligue['saison'],'nom_equipe1':share_data_match['nomequipe1-ligue'],
+        'nom_equipe2':share_data_match['nomequipe2-ligue'],'statistiques':df_stat,'evenement':df_event,'stat_finale':donnees_finale.to_dict('records'),'joueurs_equipe1':joueurs1,'joueurs_equipe2':joueurs2}
+        print('export à venir')
+        print(donnees_finale)
+        db=cluster['Ligues']
+        collist = db.list_collection_names()
+        print(f"collist {collist}")
+        if ligue in collist:
+            print('exist')
+            db[ligue].insert_one(post)
+            return 'Données exportées'
+        else:
+            print('dont exist')
+            coll=db[ligue]
+            coll.insert_one(post)
+            return 'Données exportées'
+    else:
+        return dash.no_update
 
 
 

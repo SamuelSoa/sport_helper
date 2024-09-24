@@ -35,6 +35,6 @@ def layout():
 def join_ligue_app(n_clicks,code):
     if n_clicks==1:
         result=join_ligue(current_user.id,code)
-        return result
+        return 'Ligue jointe avec succès'
     else:
         return dash.no_update

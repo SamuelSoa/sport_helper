@@ -32,8 +32,8 @@ layout= html.Form(
                 'backgroundColor': '#161B22',
             },
             children=[
-                html.H2("Please log in to continue:", id="h1"),
-                html.H2("Se connecter à l'application", style={'color': '#FFFFFF'}),
+                # html.H2("Please log in to continue:", id="h1"),
+                html.H2("Se connecter à l'application", id="h1", style={'color': '#FFFFFF'}),
                 html.Label("Pseudo", style={'textAlign': 'left'}),
                 dcc.Input(
                     type="text",id='uname-box', name='username',
