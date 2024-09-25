@@ -15,7 +15,6 @@ df_equipe = pd.DataFrame({
 })
 layout=html.Div([
             html.P("Création d'un tournoi", className="lead"),
-            
             dbc.Nav(
             [dbc.NavLink("Créer un tournoi", href="/tournoi/creation", active="exact"),
             dbc.NavLink("Tournois actuelles", href="/tournoi/tournoi_actuel", active="exact")

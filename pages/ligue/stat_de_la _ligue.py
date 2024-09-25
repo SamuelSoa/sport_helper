@@ -24,8 +24,6 @@ html.Div(id='dashtable_classement')
 ])
 
 
-
-
 @callback(
     Output('dropdown-saison-statligue','children'),
     Input('shared-data-ligue','data')
@@ -92,6 +90,9 @@ def get_statevent_mean(shared_data_ligue,saisons):
         # concat_df=pd.DataFrame(liste_individuel).reset_index(drop=True)
         # print(concat_df)
         donnees_joueurs=pd.DataFrame({'Joueur':[joueur]})
+        if shared_data_ligue['sys_ligue']=='fix-teams':
+            nom_equipe_joueur=[elem[0] for elem in shared_data_ligue['liste_equipe'] if joueur in elem[1]][0]
+            donnees_joueurs['Equipe']=nom_equipe_joueur
         print(f"d joueur apres add joueur {donnees_joueurs}")
         valeur=liste_individuel[stat_interet].mean().values.tolist()
         print(f"valeur moyenne {valeur}")
@@ -126,11 +127,7 @@ def get_statevent_mean(shared_data_ligue,saisons):
 
 
 
-@callback(
-    Output('dashtable_classement','children'),
-    Input('shared-data-ligue','data'),
-    Input('saisons-to-choose-statligue','value')
-)
+
 def get_classement_individuel(shared_data_ligue,saisons):
     """ Peret d'avoir le classement d'une ligue fonctionnant avec des équipes variables"""
 
@@ -204,3 +201,94 @@ def get_classement_individuel(shared_data_ligue,saisons):
             sort_action='native'
         )])
     return layout_stat
+
+
+
+
+
+
+
+def get_classement_equipe(shared_data_ligue,saisons):
+    """ Peret d'avoir le classement d'une ligue fonctionnant avec des équipes variables"""
+
+    nom_ligue=shared_data_ligue['ligue_name']
+    discipline=shared_data_ligue['discipline_ligue']
+    ligue_alldataevent=get_ligueevent_alldata(nom_ligue, { 'saison': { '$in':saisons } })
+    liste_equipe=shared_data_ligue['liste_equipe']
+    liste_collectif=[]
+    for equipe in liste_equipe:
+        # Initialisation du df classement de cheque personne
+        if discipline=='football':
+            liste_individuel=pd.DataFrame([[None,0,0,0,0,0,0]],columns=['Equipe','Victoire','Nul','Defaite','Points marqués','Points concedés','Points'])
+        else:
+            liste_individuel=pd.DataFrame([[None,0,0,0]],columns=['Equipe','Victoire','Defaite','Points'])
+        # on repère les données de matchs dans lequel le joueur paticipe
+        match_avec_equipe=[elem for elem in ligue_alldataevent if equipe in [elem['nom_equipe1'],elem['nom_equipe2']]]
+        for donnees_match in match_avec_equipe:
+
+            #stat synthétiques de point
+            stat_match_synthetique=pd.DataFrame(donnees_match['stat_finale'])
+            print(match_avec_equipe)
+
+            score='score1' if equipe=='equipe1' else 'score2'
+            autre_score=[elem for elem in ['score1','score2'] if elem != score][0]
+            liste_interet=stat_match_synthetique[[score,autre_score]].values.tolist()
+            print(f"liste_interet: {liste_interet}")
+            score_joueur,score_adversaire=stat_match_synthetique[[score,autre_score]].values.tolist()[0]
+            if score_joueur<score_adversaire:
+                liste_individuel['Defaite']+=1
+            elif score_joueur>score_adversaire:
+                liste_individuel['Victoire']+=1
+            if discipline=='football' and score_joueur==score_adversaire:
+                liste_individuel['Nul']+=1
+            if discipline=='football':
+                liste_individuel['Points marqués']+=score_joueur
+                liste_individuel['Points concedés']+=score_adversaire
+        
+        if discipline =='football':
+            liste_individuel['Différentiel']=liste_individuel['Points marqués']-liste_individuel['Points concedés']
+        
+        
+        # Determination du nombre de point
+
+        liste_individuel['Points']=3*liste_individuel['Victoire']+1*liste_individuel['Nul'] if discipline=='football' else 3*liste_individuel['Victoire']
+        liste_collectif.append(liste_individuel)
+    # on regroupe les données individuelles et on fait un classement
+    df_liste=pd.concat(liste_collectif)
+    df_liste['Equipe']=liste_joueur
+    df_liste.sort_values(by='Points',inplace=True,ascending=False)
+    
+    layout_stat=html.Div([
+                html.Div(children="Classement de la ligue", className="menu-title"),
+
+        dash_table.DataTable(
+            id='classement_ligue_collectif_table',
+                export_format="csv",
+            columns=[{"name": i, "id": i} for i in df_liste.columns],  # Display dataframe columns
+            data=df_liste.to_dict('records'),  # Initialize the table with dataframe data
+            filter_action='native',  # Enable filtering
+            style_header={
+                'backgroundColor': 'rgb(30, 30, 30)',
+                'color': 'white'
+            },
+            style_data={
+                'backgroundColor': 'rgb(50, 50, 50)',
+                'color': 'white'
+            },
+            sort_action='native'
+        )])
+    return layout_stat
+
+
+
+@callback(
+Output('dashtable_classement','children'),
+Input('shared-data-ligue','data'),
+Input('saisons-to-choose-statligue','value'))
+def get_classement(shared_data_ligue,saisons):
+    sys_ligue=shared_data_ligue['sys_ligue']
+    if sys_ligue=='fix-teams':
+        result=get_classement_equipe(shared_data_ligue,saisons)
+    else:
+        result=get_classement_individuel(shared_data_ligue,saisons)
+    return result

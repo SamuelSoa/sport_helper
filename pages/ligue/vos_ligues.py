@@ -50,7 +50,9 @@ def get_view_ligue(ligue,n_clicks):
                             dbc.NavLink("Ajouter une équipe", href=f"/ligues/vos_ligues/ajouter_equipe", active="exact"),
                             # dbc.NavLink("Rencontres à venir", href="/ligues/vos_ligues/rencontres_a_venir", active="exact"),
                             dbc.NavLink("Statistiques", href="/ligues/vos_ligues/statistiques", active="exact"),
-                            dbc.NavLink("Résultats", href="/ligues/vos_ligues/resultats", active="exact")
+                            dbc.NavLink("Résultats", href="/ligues/vos_ligues/resultats", active="exact"),
+                            dbc.NavLink("Paramètres", href="/ligues/vos_ligues/parametres", active="exact")
+
 
 
                             # dbc.NavLink("Statistiques", href="/ligues/"+ligue.replace(' ','')+"/statistiques", active="exact")
@@ -68,7 +70,9 @@ def get_view_ligue(ligue,n_clicks):
                             dbc.NavLink("Ajouter un resultat", href=f"/ligues/vos_ligues/ajouter_rencontre", active="exact"),
                             # dbc.NavLink("Rencontres à venir", href="/ligues/vos_ligues/rencontres_a_venir", active="exact"),
                             dbc.NavLink("Statistiques", href="/ligues/vos_ligues/statistiques", active="exact"),
-                            dbc.NavLink("Résultats", href="/ligues/vos_ligues/resultats", active="exact")
+                            dbc.NavLink("Résultats", href="/ligues/vos_ligues/resultats", active="exact"),
+                            dbc.NavLink("Paramètres", href="/ligues/vos_ligues/parametres", active="exact")
+
                             ],
                             vertical="md",
                             pills=True
