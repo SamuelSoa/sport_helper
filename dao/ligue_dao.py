@@ -95,6 +95,9 @@ def create_ligue(nom_ligue,sys_ligue,username,discipline_ligue):
         return 'Le nom de ligue est deja pris'
 
 
+
+
+
 def join_ligue(username,code_ligue):
     collection=get_collection(database='Ligues',collection_db='ligues_info')
     results_checkligue=list(collection.find({"id_share_ligue":code_ligue}))

@@ -27,8 +27,10 @@ def render_button_stat(shared_data_ligue):
     if sys_ligue=='fix-teams':
         layout_stat_general=dbc.Nav(
                             [
-                            dbc.NavLink("Parcourir les statisitques par équipe", href=f"/ligues/vos_ligues/statistiques/statistiques_teams", active="exact"),
-                            dbc.NavLink("Statistiques de la ligue", href="/ligues/vos_ligues/statistiques/statistiques_ligue", active="exact")
+                            dbc.NavLink("Parcourir les statistiques par équipe", href=f"/ligues/vos_ligues/statistiques/statistiques_teams", active="exact"),
+                            dbc.NavLink("Statistiques de la ligue", href="/ligues/vos_ligues/statistiques/statistiques_ligue", active="exact"),
+                            dbc.NavLink("Performance des joueurs", href="/ligues/vos_ligues/statistiques/player_performance", active="exact")
+
                             ],
                             vertical="md",
                             pills=True
@@ -37,7 +39,9 @@ def render_button_stat(shared_data_ligue):
     elif sys_ligue=='variable-teams':
         layout_stat_general=dbc.Nav(
                     [
-                    dbc.NavLink("Statistiques de la ligue", href="/ligues/vos_ligues/statistiques/statistiques_ligue", active="exact")
+                    dbc.NavLink("Statistiques de la ligue", href="/ligues/vos_ligues/statistiques/statistiques_ligue", active="exact"),
+                    dbc.NavLink("Performance des joueurs", href="/ligues/vos_ligues/statistiques/player_performance", active="exact")
+
                     ],
                     vertical="md",
                     pills=True

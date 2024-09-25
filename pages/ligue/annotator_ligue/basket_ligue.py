@@ -50,7 +50,7 @@ layout= html.Div([
     html.H1('Panel du match'),
      html.Div(children="Période actuelle", className="menu-title"),
         dcc.Input(id="current-periode-input-ligue", type="number", value=1),
-     html.Div(children="Système de point (si basket)", className="menu-title"),
+     html.Div(children="Système de point ", className="menu-title"),
         dcc.Dropdown(
             id="sys_pt_basket_team-ligue",
             options=[{"label": x, "value": y} for x, y in [['3PT=3,2PT=2', 'point_normal'], ['3PT=2,2PT=1', 'point_mini']]],

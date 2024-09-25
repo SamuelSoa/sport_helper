@@ -60,8 +60,8 @@ sidebar = html.Div(
             dbc.NavLink("Exhibition", href="/exhibition", active="exact"),
             dbc.NavLink("Ligues", href="/ligues", active="exact"),
             dbc.NavLink("Tournoi", href="/tournoi", active="exact"),
-            dbc.NavLink("Social", href="/social", active="exact"),
-            dbc.NavLink("Choix des joueurs", href="/joueurs_du_match", active="exact"),
+            # dbc.NavLink("Social", href="/social", active="exact"),
+            # dbc.NavLink("Choix des joueurs", href="/joueurs_du_match", active="exact"),
             dbc.NavLink("Paramètres", href="/parametres", active="exact")
             ],
             vertical="md",
@@ -81,6 +81,8 @@ app.layout = html.Div([
     dcc.Store(id='shared-data-store', storage_type='session'),
     dcc.Store(id='shared-data-ligue', storage_type='session'),
     dcc.Store(id='shared-data-store-footbasket', storage_type='session'),
+        dcc.Store(id='shared-data-store-ligue-freesolo', storage_type='session'),
+
     sidebar, content])
 
 # Login manager object will be used to login / logout users

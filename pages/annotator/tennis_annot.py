@@ -124,12 +124,10 @@ def display_buttons_tennis(df):
 def get_nom_exhibition_tennis(shared_data,nombre_set_gagnant):
     """ Retourne les données des équipes (initialisation du df) 
     df_result à utiliser pour le layout des boutons et des stats"""
-    donnees_equipes1=shared_data['donnees_team1'].split(',')
-    donnees_equipes2=shared_data['donnees_team2'].split(',')
+    joueurs1=shared_data['donnees_team1'].split(',')
+    joueurs2=shared_data['donnees_team2'].split(',')
     nom_equipe1=shared_data['nomequipe1']
     nom_equipe2=shared_data['nomequipe2']
-    joueurs1=donnees_equipes1
-    joueurs2=donnees_equipes2
     data = {
     'player':joueurs1+joueurs2 ,
     'team':[nom_equipe1]*len(joueurs1)+ [nom_equipe2]*len(joueurs2),

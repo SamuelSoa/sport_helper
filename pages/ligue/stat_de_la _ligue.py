@@ -71,19 +71,19 @@ def get_statevent_mean(shared_data_ligue,saisons):
                 else:
                     stat_interet=['3pt','3pt-reussi','3pt-echoue','3pt(%)','2pt','2pt-reussi','2pt-echoue','2pt(%)','lf','lf-reussi','lf-echoue','lf(%)','faute','reb','ast','stl','blk','to','gametime']                
             stat_match=pd.DataFrame(donnees_match['statistiques'])
-            ligue_joueur=stat_match.loc[stat_match['player']==joueur].reset_index(drop=True)
-            # liste_individuel.append(ligue_joueur)
+            ligne_joueur=stat_match.loc[stat_match['player']==joueur].reset_index(drop=True)
+            # liste_individuel.append(ligne_joueur)
 
             if discipline=='basket':
                 for variable in ['3pt','2pt','lf']:
-                    if ligue_joueur[variable].values[0]==0:
+                    if ligne_joueur[variable].values[0]==0:
                         pourcentage=None
                     else:
-                        pourcentage=ligue_joueur[variable+'-reussi']/ligue_joueur[variable]
-                    ligue_joueur[variable+"(%)"]=pourcentage
+                        pourcentage=ligne_joueur[variable+'-reussi']/ligne_joueur[variable]
+                    ligne_joueur[variable+"(%)"]=pourcentage
             elif discipline=='football':
-                ligue_joueur['but']=ligue_joueur['but-normal']+ligue_joueur['but-penalty']+ligue_joueur['but-coupfranc']
-            liste_individuel = pd.concat([liste_individuel,ligue_joueur])
+                ligne_joueur['but']=ligne_joueur['but-normal']+ligne_joueur['but-penalty']+ligne_joueur['but-coupfranc']
+            liste_individuel = pd.concat([liste_individuel,ligne_joueur])
             print(f"liste_individuel {liste_individuel}")
         
         
@@ -128,6 +128,9 @@ def get_statevent_mean(shared_data_ligue,saisons):
 
 
 
+
+
+
 def get_classement_individuel(shared_data_ligue,saisons):
     """ Peret d'avoir le classement d'une ligue fonctionnant avec des équipes variables"""
 
@@ -139,11 +142,12 @@ def get_classement_individuel(shared_data_ligue,saisons):
     for joueur in liste_joueur:
         # Initialisation du df classement de cheque personne
         if discipline=='football':
-            liste_individuel=pd.DataFrame([[None,0,0,0,0,0]],columns=['Joueur','Victoire','Nul','Defaite','Points marqués par ses équipes','Points concedés par ses équipes'])
+            liste_individuel=pd.DataFrame([[0,None,0,0,0,0,0,0]],columns=['Rang','Joueur','Matchs joués','Victoire','Nul','Defaite','Points marqués par ses équipes','Points concedés par ses équipes'])
         else:
-            liste_individuel=pd.DataFrame([[None,0,0]],columns=['Joueur','Victoire','Defaite'])
+            liste_individuel=pd.DataFrame([[0,None,0,0,0]],columns=['Rang','Joueur','Matchs joués','Victoire','Defaite'])
         # on repère les données de matchs dans lequel le joueur paticipe
         match_avec_joueur=[elem for elem in ligue_alldataevent if joueur in elem['joueurs_equipe1']+elem['joueurs_equipe2']]
+        nb_match_joues=len(match_avec_joueur)
         for donnees_match in match_avec_joueur:
 
             #stat synthétiques de point
@@ -175,12 +179,13 @@ def get_classement_individuel(shared_data_ligue,saisons):
         # Determination du nombre de point
 
         liste_individuel['Points']=3*liste_individuel['Victoire']+1*liste_individuel['Nul'] if discipline=='football' else 3*liste_individuel['Victoire']
+        liste_individuel['Matchs joués']=nb_match_joues
         liste_collectif.append(liste_individuel)
     # on regroupe les données individuelles et on fait un classement
     df_liste=pd.concat(liste_collectif)
     df_liste['Joueur']=liste_joueur
     df_liste.sort_values(by='Points',inplace=True,ascending=False)
-    
+    df_liste['Rang']=range(1,len(df_liste)+1)
     layout_stat=html.Div([
                 html.Div(children="Classement de la ligue", className="menu-title"),
 
@@ -219,11 +224,12 @@ def get_classement_equipe(shared_data_ligue,saisons):
     for equipe in liste_equipe:
         # Initialisation du df classement de cheque personne
         if discipline=='football':
-            liste_individuel=pd.DataFrame([[None,0,0,0,0,0,0]],columns=['Equipe','Victoire','Nul','Defaite','Points marqués','Points concedés','Points'])
+            liste_individuel=pd.DataFrame([[None,0,0,0,0,0,0,0]],columns=['Equipe','Matchs joués','Victoire','Nul','Defaite','Points marqués','Points concedés','Points'])
         else:
-            liste_individuel=pd.DataFrame([[None,0,0,0]],columns=['Equipe','Victoire','Defaite','Points'])
+            liste_individuel=pd.DataFrame([[None,0,0,0,0]],columns=['Equipe','Matchs joués','Victoire','Defaite','Points'])
         # on repère les données de matchs dans lequel le joueur paticipe
         match_avec_equipe=[elem for elem in ligue_alldataevent if equipe in [elem['nom_equipe1'],elem['nom_equipe2']]]
+        nb_mathçjoues=len(match_avec_equipe)
         for donnees_match in match_avec_equipe:
 
             #stat synthétiques de point
@@ -252,6 +258,7 @@ def get_classement_equipe(shared_data_ligue,saisons):
         # Determination du nombre de point
 
         liste_individuel['Points']=3*liste_individuel['Victoire']+1*liste_individuel['Nul'] if discipline=='football' else 3*liste_individuel['Victoire']
+        liste_individuel['Matchs joués']=nb_mathçjoues
         liste_collectif.append(liste_individuel)
     # on regroupe les données individuelles et on fait un classement
     df_liste=pd.concat(liste_collectif)
