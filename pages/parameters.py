@@ -13,7 +13,7 @@ dash.register_page(__name__, path="/parametres",name='Parametres')
 layout=html.Div([
             dbc.Nav(
             [dbc.NavLink("Mon compte", href="/parameters/account", active="exact"),
-            dbc.NavLink("Deconnexion", href="/deconnextion", active="exact")
+            dbc.NavLink("A propos", href="/parameters/about", active="exact"),
             ],
             vertical="md",
             pills=True
