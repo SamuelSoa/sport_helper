@@ -208,5 +208,6 @@ def navigate_ligue(n_clicks,shared_data):
         return '/party_volley_ligue'  # Navigate to the desired page
     elif n_clicks >=2 and discipline =='football':
         return '/party_foot_ligue'  # Navigate to the desired page
-
+    elif n_clicks >=2 and discipline =='free-multi':
+        return '/party_free_multi_ligue'  # Navigate to the desired page
     return dash.no_update

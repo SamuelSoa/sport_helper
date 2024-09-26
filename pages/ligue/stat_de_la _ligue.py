@@ -64,6 +64,8 @@ def get_statevent_mean(shared_data_ligue,saisons):
                 stat_interet=['but','but-normal','but-penalty','but-coupfranc','passe-decisive','csc','carton-jaune','carton-rouge','gametime']
             elif discipline=='volley':
                 stat_interet=['point']
+            elif discipline in ['free-solo','free-multi']:
+                stat_interet=['ajout-point']
             elif discipline=='basket':
                 sys_annot=donnees_match['sys_annot']
                 if sys_annot=='annot_simple':

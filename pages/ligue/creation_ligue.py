@@ -64,7 +64,8 @@ layout= html.Div(
                  html.Div(children="Discipline", className="menu-title"),
         dcc.Dropdown(
             id="discipline_ligue",
-            options=[{"label": x, "value": y} for x, y in [['Basket', 'basket'], ['Tennis', 'tennis'], ['Football', 'football'], ['Volley', 'volley'], ['Discipline libre individuel', 'free-solo']]],
+            options=[{"label": x, "value": y} for x, y in [['Basket', 'basket'], ['Tennis', 'tennis'], ['Football', 'football'], ['Volley', 'volley']
+            , ['Discipline libre individuel', 'free-solo'], ['Discipline libre collective', 'free-multi']]],
             value='basket',
             clearable=False,
             className="dropdown"
