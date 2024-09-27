@@ -294,7 +294,7 @@ def export_perf_vollley(shared_data_ligue,share_data_match,n_clicks,df_stat,df_e
         heure=datetime.datetime.now().strftime('%H:%M:%S')
         joueurs1=share_data_match['donnees_team1-ligue']
         joueurs2=share_data_match['donnees_team2-ligue']
-        post={'discipline':share_data_match['discipline_to_choose'],'date_enregistrement':date,'heure_enregistrement':heure,'saison':shared_data_ligue['saison'],'nom_equipe1':share_data_match['nomequipe1-ligue'],
+        post={'discipline':share_data_match['discipline_to_choose'],'date_enregistrement':share_data_match['date_enregistrement'],'heure_enregistrement':share_data_match['heure_enregistrement'],'saison':shared_data_ligue['saison'][-1],'nom_equipe1':share_data_match['nomequipe1-ligue'],
         'nom_equipe2':share_data_match['nomequipe2-ligue'],'statistiques':df_individual,'evenement':df_event,'stat_par_periode':df_stat,'joueurs_equipe1':joueurs1,'joueurs_equipe2':joueurs2}
         print('export à venir')
         print(donnees_finale)

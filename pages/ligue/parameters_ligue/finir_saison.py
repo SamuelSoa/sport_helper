@@ -29,7 +29,7 @@ def changer_saison(ligue):
     collection=get_collection(database='Ligues',collection_db='ligues_info')
     results_checkligue=list(collection.find({'ligue_name':ligue}))
     saison_actuelle=results_checkligue[0]['saison']
-    collection.update_one({'ligue_name':ligue},{'$set':{'saison':saison_actuelle+1}})
+    collection.update_one({'ligue_name':ligue},{'$push':{'saison':saison_actuelle+1}})
     return 'Saison modifié'
 
 @callback(

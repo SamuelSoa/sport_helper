@@ -541,7 +541,7 @@ def export_perf(shared_data_ligue,share_data_match,n_clicks,df_stat,df_event,df_
         ligue= shared_data_ligue['ligue_name']
         date=datetime.date.today().strftime('%d/%m/%Y')
         heure=datetime.datetime.now().strftime('%H:%M:%S')
-        post={'discipline':share_data_match['discipline_to_choose'],'date_enregistrement':date,'heure_enregistrement':heure,'saison':shared_data_ligue['saison'],'nom_equipe1':share_data_match['nomequipe1-ligue'],
+        post={'discipline':share_data_match['discipline_to_choose'],'date_enregistrement':share_data_match['date_enregistrement'],'heure_enregistrement':share_data_match['heure_enregistrement'],'saison':shared_data_ligue['saison'][-1],'nom_equipe1':share_data_match['nomequipe1-ligue'],
         'nom_equipe2':share_data_match['nomequipe2-ligue'],'sys_annot':sys_annot,'sys_match':sys_pt,
         'statistiques':df_stat,'evenement':df_event,'stat_par_periode':df_periode,'stat_finale':donnees_finale.to_dict('records'),'joueurs_equipe1':joueurs1,'joueurs_equipe2':joueurs2}
         print('export à venir')

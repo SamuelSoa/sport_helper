@@ -26,10 +26,6 @@ def layout():
     )
 
 
-
-
-
-
 @callback(
     Output('view_ligue','children'),
     Output('shared-data-ligue','data'),
@@ -52,9 +48,6 @@ def get_view_ligue(ligue,n_clicks):
                             dbc.NavLink("Statistiques", href="/ligues/vos_ligues/statistiques", active="exact"),
                             dbc.NavLink("Résultats", href="/ligues/vos_ligues/resultats", active="exact"),
                             dbc.NavLink("Paramètres", href="/ligues/vos_ligues/parametres", active="exact")
-
-
-
                             # dbc.NavLink("Statistiques", href="/ligues/"+ligue.replace(' ','')+"/statistiques", active="exact")
                             ],
                             vertical="md",

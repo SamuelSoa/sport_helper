@@ -30,7 +30,7 @@ def get_view_ajouter_ligue(shared_data):
         result= html.Div([html.P("Quel type d'ajout ?", className="lead"),
         dbc.Nav(
             [dbc.NavLink("Annotation en direct", href="/ligues/vos_ligues/ajouter_rencontre/parametrage_rencontre", active="exact"),
-            dbc.NavLink("Annotation à posteriori", href="/ligues/vos_ligues/ajouter_rencontre/parametrage_rencontre", active="exact")
+            dbc.NavLink("Annotation à posteriori", href="/ligues/vos_ligues/ajouter_rencontre/annotation_posteriori", active="exact")
             ],
             vertical="md",
             pills=True

@@ -75,7 +75,6 @@ def get_statevent_mean(shared_data_ligue,saisons):
             stat_match=pd.DataFrame(donnees_match['statistiques'])
             ligne_joueur=stat_match.loc[stat_match['player']==joueur].reset_index(drop=True)
             # liste_individuel.append(ligne_joueur)
-
             if discipline=='basket':
                 for variable in ['3pt','2pt','lf']:
                     if ligne_joueur[variable].values[0]==0:
@@ -102,8 +101,8 @@ def get_statevent_mean(shared_data_ligue,saisons):
         print(f"d joueur {donnees_joueurs}")
         liste_collectif.append(donnees_joueurs)
     df_liste=pd.concat(liste_collectif)
-    # if discipline=='basket':
-    #     df_liste.drop(columns=['pause','id_team'])
+    if discipline=='basket':
+        df_liste.drop(columns=['3pt-reussi','3pt-echoue','2pt-echoue','2pt-reussi','lf-echoue','lf-reussi'],inplace=True)
         
     print(df_liste)
     layout_stat=html.Div([
@@ -138,6 +137,7 @@ def get_classement_individuel(shared_data_ligue,saisons):
 
     nom_ligue=shared_data_ligue['ligue_name']
     discipline=shared_data_ligue['discipline_ligue']
+    print(f'saison {saisons}')
     ligue_alldataevent=get_ligueevent_alldata(nom_ligue, { 'saison': { '$in':saisons } })
     liste_joueur=np.unique(np.array([elem['joueurs_equipe1']+elem['joueurs_equipe2'] for elem in ligue_alldataevent]).flatten())
     liste_collectif=[]

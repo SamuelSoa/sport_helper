@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 from dash import dcc, html, Input, Output,dash_table,State, callback
 from dao.ligue_dao import get_data_by_filter
+import datetime
+
 
 dash.register_page(__name__, path="/ligues/vos_ligues/ajouter_rencontre/parametrage_rencontre",name='Paramètrage de la rencontre')
 
@@ -25,6 +27,7 @@ layout = html.Div(
         dcc.Input(id="start-time-input-ligue", type="number", value=10),
         dcc.Interval(id='interval-component-ligue', interval=1000, n_intervals=0, disabled=True),
         html.Br(),
+       
         html.Button('Cliquez 2 fois', id='validate-button-rencontreligue', n_clicks=0)  # Use a button for validation
     ], className='wrapper'
 )
@@ -178,8 +181,11 @@ def store_data_annot(n_clicks,shared_data,input_value2,input_value3,input_value4
         print("validate-button has not been clicked yet.")
         return dash.no_update
     print(f'donnees equipes:{input_value4},{input_value5}')
+    date=datetime.date.today().strftime('%d/%m/%Y')
+    heure=datetime.datetime.now().strftime('%H:%M:%S')
     dicto={'discipline_to_choose':discipline,'periode-input-ligue':input_value2,'start-time-input-ligue':input_value3,'donnees_team1-ligue':input_value4,'donnees_team2-ligue':input_value5,
-    'nomequipe1-ligue':input_value6[0] if type(input_value6)==list else input_value6,'nomequipe2-ligue':input_value7[0] if type(input_value7)==list else input_value7}
+    'nomequipe1-ligue':input_value6[0] if type(input_value6)==list else input_value6,'nomequipe2-ligue':input_value7[0] if type(input_value7)==list else input_value7,'date_enregistrement':date,
+    'heure_enregistrement':heure}
     # dicto['data']=df_donnees_joueurs
     # dicto.update({'data': df_donnees_joueurs})
     print(f"Storing data footbasket: {dicto}")  # Debugging statement
@@ -211,3 +217,5 @@ def navigate_ligue(n_clicks,shared_data):
     elif n_clicks >=2 and discipline =='free-multi':
         return '/party_free_multi_ligue'  # Navigate to the desired page
     return dash.no_update
+
+
