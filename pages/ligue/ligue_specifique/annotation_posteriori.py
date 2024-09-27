@@ -13,7 +13,6 @@ from pages.ligue.annotator_ligue.libre_collectif_ligue import get_nom_exhibition
 from datetime import date
 import io
 from dao.ligue_dao import cluster
-
 import base64
 dash.register_page(__name__, path="/ligues/vos_ligues/ajouter_rencontre/annotation_posteriori",name='Paramètrage de la rencontre')
 layout = html.Div(
